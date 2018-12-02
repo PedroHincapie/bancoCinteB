@@ -12,9 +12,6 @@ import javax.persistence.NamedQuery;
 @NamedQueries({
 	@NamedQuery(name = "Asesor.findAll", query = "SELECT asesor FROM Asesor asesor"),
 	@NamedQuery(name = "Asesor.findById", query = "SELECT asesor FROM Asesor asesor WHERE asesor.codigo = :codigo")
-//	,
-//	@NamedQuery(name = "Asesor.updateAsesor", query = "UPDATE Asesor set asesor WHERE asesor.codigo = :codigo")
-
 })
 public class AsesoresEntity {
 
@@ -30,14 +27,6 @@ public class AsesoresEntity {
 
 	@Column(nullable = false)
 	private String especialidad;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getCodigo() {
 		return codigo;

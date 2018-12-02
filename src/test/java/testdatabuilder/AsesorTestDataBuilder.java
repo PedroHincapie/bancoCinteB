@@ -24,12 +24,7 @@ public class AsesorTestDataBuilder {
 		this.nombre = nombre;
 		this.especialidad = especialidad;
 	}
-
-	public AsesorTestDataBuilder conNombre (String nombre) {
-		this.nombre = nombre;
-		return this;
-	}
-
+	
 	public Asesor build() {
 		return new Asesor(this.codigo, this.nombre, this.especialidad);
 	}

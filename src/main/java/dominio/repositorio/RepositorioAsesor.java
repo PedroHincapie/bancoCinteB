@@ -22,7 +22,7 @@ public interface RepositorioAsesor {
 	 * Permite actualizar el registro de un asesor
 	 * @param asesor
 	 */
-	int actualizar(Asesor asesor);
+	Asesor actualizar(Asesor asesor);
 
 	/**
 	 * Permite eliminar un asesor

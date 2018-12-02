@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import dominio.Asesor;
+import dominio.excepcion.AsesorException;
 import dominio.repositorio.RepositorioAsesor;
 import persistencia.builder.AsesorBuilder;
 import persistencia.entitad.AsesoresEntity;
@@ -16,7 +17,8 @@ public class RepositorioAsesorPersistente implements RepositorioAsesor {
 	private static final String CODIGO = "codigo";
 	private static final String LISTAR_ASESORES = "Asesor.findAll";
 	private static final String ASESOR_FIND_BY_CODIGO = "Asesor.findById";
-	private static final String UPDATE_FIND_BY_CODIGO = "Asesor.update";
+	private static final String ASESOR_NO_EXISTE = "Asesor no existe";
+
 
 	private EntityManager entityManager;
 
@@ -30,7 +32,7 @@ public class RepositorioAsesorPersistente implements RepositorioAsesor {
 
 		List<AsesoresEntity> resultList = query.getResultList();
 
-		return !resultList.isEmpty() ? resultList : null;
+		return resultList;
 
 	}
 
@@ -60,9 +62,18 @@ public class RepositorioAsesorPersistente implements RepositorioAsesor {
 	}
 
 	@Override
-	public int actualizar(Asesor asesor) {
-		Query query = entityManager.createNamedQuery(UPDATE_FIND_BY_CODIGO);
-		return query.setParameter(CODIGO, asesor.getCodigo()).executeUpdate();
+	public Asesor actualizar(Asesor asesor) {
+		AsesoresEntity asesorE = obtenerAsesoresByCodigo(asesor.getCodigo());
+
+		if( null == asesorE){
+			throw new AsesorException(ASESOR_NO_EXISTE);
+		}
+
+		asesorE.setCodigo(asesor.getCodigo());
+		asesorE.setNombre(asesor.getNombre());
+		asesorE.setEspecialidad(asesor.getEspecialidad());			
+
+		return AsesorBuilder.convertirADominio(entityManager.merge(asesorE));	
 	}
 
 	@Override

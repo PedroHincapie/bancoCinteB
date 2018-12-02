@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import dominio.Analistas;
 import dominio.Asesor;
+import dominio.excepcion.AsesorException;
 import dominio.repositorio.RepositorioAsesor;
 import persistencia.sistema.SistemaDePersistencia;
 import testdatabuilder.AsesorTestDataBuilder;
@@ -16,6 +17,7 @@ public class AsesorTest {
 	private static final String CODIGO = "ADC123";
 	private static final String NOMBRE = "PEDRO JESUS HINCAPIE GARCIA";
 	private static final String ESPECIALIDAD = "GERENTE GENERAL";
+	private static final String ASESOR_NO_EXISTE = "Asesor no existe";
 
 	private SistemaDePersistencia sistemaPersistencia;
 
@@ -51,27 +53,21 @@ public class AsesorTest {
 		Assert.assertNotNull(analista.obtenerAsesores());
 	}
 
-	//	@Test
-	//	public void actulizarAsesor() {
-	//
-	//		// arrange
-	//		Asesor asesor = new AsesorTestDataBuilder("WER123", "JULIAN", "TETETO").build();
-	//		repositorioAsesor.agregar(asesor);
-	//		asesor.setNombre("Tetas martines");
-	//
-	//		Analistas analista = new Analistas(repositorioAsesor);
-	//
-	//		// act
-	//		analista.actulizarAsesor(asesor);
-	//		//		System.err.println(analista.actulizarAsesor(asesor).getCodigo() +" " + analista.actulizarAsesor(asesor).getNombre() + " "+ analista.actulizarAsesor(asesor).getEspecialidad());
-	//
-	//		System.err.println("Tamaao :" + analista.obtenerAsesores().size());
-	//
-	//		System.err.println(analista.obtenerAsesores().get(0).getCodigo() + " " +analista.obtenerAsesores().get(0).getNombre());
-	//
-	//		// assert
-	//		Assert.assertNotNull(analista.asesorById(asesor.getCodigo()));
-	//	}
+	@Test
+	public void actulizarAsesor() {
+
+		// arrange
+		Asesor asesor = new AsesorTestDataBuilder("WER123", "JULIAN", "GERENTE DE OPERACIONES").build();
+		repositorioAsesor.agregar(asesor);
+
+		asesor.setNombre(NOMBRE);
+		asesor.setEspecialidad(ESPECIALIDAD);
+
+		Analistas analista = new Analistas(repositorioAsesor);
+
+		// act - assert
+		Assert.assertEquals(NOMBRE, analista.actulizarAsesor(asesor).getNombre());
+	}
 
 	@Test
 	public void buscarAsesorById() {
@@ -103,7 +99,19 @@ public class AsesorTest {
 		Assert.assertNull(analista.asesorById(asesor.getCodigo()));
 	}
 
+	@Test
+	public void actulizarAsesorSinExistir() {
 
+		// arrange
+		Asesor asesor = new AsesorTestDataBuilder(NOMBRE, "JULIAN", "GERENTE DE OPERACIONES").build();
 
+		Analistas analista = new Analistas(repositorioAsesor);
 
+		// act - assert
+		try {
+			analista.actulizarAsesor(asesor);
+		} catch (AsesorException e) {
+			Assert.assertEquals(ASESOR_NO_EXISTE, e.getMessage());
+		}
+	}
 }

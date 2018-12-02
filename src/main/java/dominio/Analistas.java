@@ -17,7 +17,7 @@ public class Analistas {
 		return this.repositorioAsesor.listarAsesores();
 	}
 
-	public int actulizarAsesor(Asesor asesor) {
+	public Asesor actulizarAsesor(Asesor asesor) {
 		return this.repositorioAsesor.actualizar(asesor);
 	}
 
