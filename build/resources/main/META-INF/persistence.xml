@@ -5,8 +5,6 @@
                                  http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="tienda" transaction-type="RESOURCE_LOCAL">
 
-		<class>persistencia.entitad.ProductoEntity</class>
-		<class>persistencia.entitad.GarantiaExtendidaEntity</class>
 		<class>persistencia.entitad.AsesoresEntity</class>
 
 		<properties>
